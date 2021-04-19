@@ -67,19 +67,26 @@ public class Connection : MonoBehaviour
 
       foreach (var user in gameState.users)
       {
-        Client existingClient;
-        if (Clients.TryGetValue(user.id, out existingClient))
+        try
         {
-          var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings
-          var x = float.Parse(pt[0]);
-          var y = float.Parse(pt[1]);
-          var z = float.Parse(pt[2]);
-          var newPos = new Vector3(x, y, z);
-          existingClient.playerObject.transform.position = newPos;
+          Client existingClient;
+          if (Clients.TryGetValue(user.id, out existingClient))
+          {
+            var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings
+            var x = float.Parse(pt[0]);
+            var y = float.Parse(pt[1]);
+            var z = float.Parse(pt[2]);
+            var newPos = new Vector3(x, y, z);
+            existingClient.playerObject.transform.position = newPos;
+          }
+          else
+          {
+            CreateClient(user);
+          }
         }
-        else
+        catch (Exception e)
         {
-          CreateClient(user);
+          Debug.Log(e);
         }
       }
     };
