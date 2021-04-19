@@ -17,12 +17,14 @@ public class User
 {
   public string id;
   public string position;
+  public string rotation;
 }
 
 [Serializable]
 public class PlayerPosition
 {
   public string position;
+  public string rotation;
   public string type;
 }
 
@@ -30,6 +32,7 @@ public class Client
 {
   public string id;
   public GameObject playerObject;
+  public InterpolateMovement interpolateMovement;
 }
 
 public class Connection : MonoBehaviour
@@ -64,25 +67,36 @@ public class Connection : MonoBehaviour
     {
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
-      Debug.Log(gameState.id)
 
       foreach (var user in gameState.users)
       {
         try
         {
-          Client client;
+          if (user.id == gameState.id)
+          {
+            continue;
+          }
 
+          Client client;
           if (!Clients.TryGetValue(user.id, out client))
           {
             client = CreateClient(user);
             Debug.Log("Created client");
           }
+          Debug.Log(gameState.id);
+          var rt = user.rotation.Split(","[0]); // gets 3 parts of the vector into separate strings
+          var rtx = float.Parse(rt[0]);
+          var rty = float.Parse(rt[1]);
+          var rtz = float.Parse(rt[2]);
+          var newRot = new Vector3(rtx, rty, rtz);
+          client.interpolateMovement.endRotation = newRot;
+
           var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings
-          var x = float.Parse(pt[0]);
-          var y = float.Parse(pt[1]);
-          var z = float.Parse(pt[2]);
-          var newPos = new Vector3(x, y, z);
-          client.playerObject.transform.position = newPos;
+          var ptx = float.Parse(pt[0]);
+          var pty = float.Parse(pt[1]);
+          var ptz = float.Parse(pt[2]);
+          var newPos = new Vector3(ptx, pty, ptz);
+          client.interpolateMovement.endPosition = newPos;
         }
         catch (Exception e)
         {
@@ -103,8 +117,9 @@ public class Connection : MonoBehaviour
     var newClient = new Client();
     newClient.id = user.id;
     var otherPlayer = Instantiate(otherPlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-    otherPlayer.name = user.id.Substring(0, 8);
+    otherPlayer.name = user.id;
     newClient.playerObject = otherPlayer;
+    newClient.interpolateMovement = otherPlayer.GetComponent<InterpolateMovement>();
     Clients.Add(user.id, newClient);
     return newClient;
   }
@@ -123,6 +138,8 @@ public class Connection : MonoBehaviour
       PlayerPosition playerPosition = new PlayerPosition();
       var currentPos = player.transform.position;
       playerPosition.position = $"{currentPos.x},{currentPos.y},{currentPos.z}";
+      var currentRot = player.transform.rotation;
+      playerPosition.rotation = $"{currentRot.x},{currentRot.y},{currentRot.z}";
       playerPosition.type = "POSITION_UPDATED";
       await websocket.SendText(JsonUtility.ToJson(playerPosition));
     }
