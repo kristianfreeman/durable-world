@@ -64,11 +64,10 @@ public class Connection : MonoBehaviour
     {
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
+      Debug.Log(gameState.id)
 
       foreach (var user in gameState.users)
       {
-        if (user.id == gameState.id) { continue; }
-
         try
         {
           Client client;
@@ -92,8 +91,8 @@ public class Connection : MonoBehaviour
       }
     };
 
-    // Keep sending messages at every second
-    InvokeRepeating("UpdatePosition", 0.0f, 0.5f);
+    // Keep sending messages at every 0.2 seconds
+    InvokeRepeating("UpdatePosition", 0.0f, 0.2f);
 
     // waiting for messages
     await websocket.Connect();
@@ -104,6 +103,7 @@ public class Connection : MonoBehaviour
     var newClient = new Client();
     newClient.id = user.id;
     var otherPlayer = Instantiate(otherPlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+    otherPlayer.name = user.id.Substring(0, 8);
     newClient.playerObject = otherPlayer;
     Clients.Add(user.id, newClient);
     return newClient;
