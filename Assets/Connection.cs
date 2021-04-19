@@ -83,12 +83,12 @@ public class Connection : MonoBehaviour
             client = CreateClient(user);
             Debug.Log("Created client");
           }
-          Debug.Log(gameState.id);
+
           var rt = user.rotation.Split(","[0]); // gets 3 parts of the vector into separate strings
           var rtx = float.Parse(rt[0]);
           var rty = float.Parse(rt[1]);
           var rtz = float.Parse(rt[2]);
-          var newRot = new Vector3(rtx, rty, rtz);
+          var newRot = Quaternion.Euler(rtz, rtx, rty);
           client.interpolateMovement.endRotation = newRot;
 
           var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings
@@ -139,7 +139,7 @@ public class Connection : MonoBehaviour
       var currentPos = player.transform.position;
       playerPosition.position = $"{currentPos.x},{currentPos.y},{currentPos.z}";
       var currentRot = player.transform.rotation;
-      playerPosition.rotation = $"{currentRot.x},{currentRot.y},{currentRot.z}";
+      playerPosition.rotation = $"{currentRot.eulerAngles.x},{currentRot.eulerAngles.y},{currentRot.eulerAngles.z}";
       playerPosition.type = "POSITION_UPDATED";
       await websocket.SendText(JsonUtility.ToJson(playerPosition));
     }
