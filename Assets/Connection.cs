@@ -88,7 +88,7 @@ public class Connection : MonoBehaviour
           var rtx = float.Parse(rt[0]);
           var rty = float.Parse(rt[1]);
           var rtz = float.Parse(rt[2]);
-          var newRot = Quaternion.Euler(rtz, rtx, rty);
+          var newRot = Quaternion.Euler(rtx, rty, rtz);
           client.interpolateMovement.endRotation = newRot;
 
           var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings

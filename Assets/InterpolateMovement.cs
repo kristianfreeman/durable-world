@@ -15,14 +15,14 @@ public class InterpolateMovement : MonoBehaviour
   void Update()
   {
     transform.position = Vector3.SmoothDamp(transform.position, endPosition, ref posVelocity, positionSmoothTime);
-    transform.rotation = endRotation;
+    // transform.rotation = endRotation;
 
-    // float delta = Quaternion.Angle(transform.rotation, endRotation);
-    // if (delta > 0f)
-    // {
-    //   float t = Mathf.SmoothDampAngle(delta, 0.0f, ref rotVelocity, rotationSmoothTime);
-    //   t = 1.0f - (t / delta);
-    //   transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, t);
-    // }
+    float delta = Quaternion.Angle(transform.rotation, endRotation);
+    if (delta > 0f)
+    {
+      float t = Mathf.SmoothDampAngle(delta, 0.0f, ref rotVelocity, rotationSmoothTime);
+      t = 1.0f - (t / delta);
+      transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, t);
+    }
   }
 }
