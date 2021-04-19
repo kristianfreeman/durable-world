@@ -8,6 +8,7 @@ using NativeWebSocket;
 [Serializable]
 public class GameState
 {
+  public string id;
   public User[] users;
 }
 
@@ -62,27 +63,27 @@ public class Connection : MonoBehaviour
     websocket.OnMessage += (bytes) =>
     {
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
-      Debug.Log(payload);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
 
       foreach (var user in gameState.users)
       {
+        if (user.id == gameState.id) { continue; }
+
         try
         {
-          Client existingClient;
-          if (Clients.TryGetValue(user.id, out existingClient))
+          Client client;
+
+          if (!Clients.TryGetValue(user.id, out client))
           {
-            var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings
-            var x = float.Parse(pt[0]);
-            var y = float.Parse(pt[1]);
-            var z = float.Parse(pt[2]);
-            var newPos = new Vector3(x, y, z);
-            existingClient.playerObject.transform.position = newPos;
+            client = CreateClient(user);
+            Debug.Log("Created client");
           }
-          else
-          {
-            CreateClient(user);
-          }
+          var pt = user.position.Split(","[0]); // gets 3 parts of the vector into separate strings
+          var x = float.Parse(pt[0]);
+          var y = float.Parse(pt[1]);
+          var z = float.Parse(pt[2]);
+          var newPos = new Vector3(x, y, z);
+          client.playerObject.transform.position = newPos;
         }
         catch (Exception e)
         {
@@ -98,12 +99,14 @@ public class Connection : MonoBehaviour
     await websocket.Connect();
   }
 
-  void CreateClient(User user)
+  Client CreateClient(User user)
   {
     var newClient = new Client();
     newClient.id = user.id;
     var otherPlayer = Instantiate(otherPlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     newClient.playerObject = otherPlayer;
+    Clients.Add(user.id, newClient);
+    return newClient;
   }
 
   void Update()
