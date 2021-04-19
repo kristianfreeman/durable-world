@@ -93,7 +93,7 @@ public class Connection : MonoBehaviour
     };
 
     // Keep sending messages at every second
-    InvokeRepeating("UpdatePosition", 0.0f, 1.0f);
+    InvokeRepeating("UpdatePosition", 0.0f, 0.5f);
 
     // waiting for messages
     await websocket.Connect();
