@@ -89,6 +89,7 @@ public class Connection : MonoBehaviour
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
 
+      Debug.Log(payload);
       foreach (var user in gameState.users)
       {
         try
@@ -102,7 +103,6 @@ public class Connection : MonoBehaviour
           if (!Clients.TryGetValue(user.id, out client))
           {
             client = CreateClient(user);
-            Debug.Log("Created client");
           }
 
           var rt = user.rotation.Split(","[0]); // gets 3 parts of the vector into separate strings

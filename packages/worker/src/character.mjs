@@ -58,7 +58,7 @@ export class Character {
       let newUser = { id: key, name, position: '0.0,0.0,0.0', rotation: '0.0,0.0,0.0' }
       if (!currentState.users.find(user => user.id === key)) {
         currentState.users.push(newUser)
-        currentState.websockets.push({ id: key, websocket })
+        currentState.websockets.push({ id: key, name, websocket })
       }
 
       this.value = currentState
