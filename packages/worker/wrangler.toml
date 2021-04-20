@@ -1,0 +1,16 @@
+name = "durable-world"
+# type = "javascript" is required to use the `[build]` section
+type = "javascript"
+account_id = "dc56444c4c955a1653106ccf997c1067"
+workers_dev = true
+route = ""
+zone_id = ""
+
+[build]
+command = "npm install && npm run build"
+# The "modules" upload format is required for all projects that export a Durable Objects class
+upload.format = "modules"
+upload.main = "./index.mjs"
+
+[durable_objects]
+bindings = [{name = "CHARACTER", class_name = "Character"}]
