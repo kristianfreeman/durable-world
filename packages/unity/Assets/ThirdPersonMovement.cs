@@ -17,7 +17,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
 
 #if !UNITY_WEBGL || UNITY_EDITOR
-  private float rotationMultiplier = 0.25f;
+  private float rotationMultiplier = 0.5f;
 #else
   private float rotationMultiplier = 2f;
 #endif
