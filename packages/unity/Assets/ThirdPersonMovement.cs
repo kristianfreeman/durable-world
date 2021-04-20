@@ -15,7 +15,12 @@ public class ThirdPersonMovement : MonoBehaviour
   public float inAirSpeed = 2.0f;
   public float inAirDrift = 0.5f;
 
+
+#if !UNITY_WEBGL || UNITY_EDITOR
+  private float rotationMultiplier = 0.25f;
+#else
   private float rotationMultiplier = 1f;
+#endif
 
   private Vector3 moveDirection = Vector3.zero;
   void Update()
