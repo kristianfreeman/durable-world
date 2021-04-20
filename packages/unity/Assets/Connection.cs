@@ -45,9 +45,23 @@ public class Connection : MonoBehaviour
 
   public Dictionary<string, Client> Clients = new Dictionary<string, Client>();
 
+  private int maxRetries = 10;
+  private int retries = 0;
+
+
   // Start is called before the first frame update
-  async void Start()
+  void Start()
   {
+    Connect();
+  }
+  async void Connect()
+  {
+    retries += 1;
+    if (maxRetries < retries)
+    {
+      return;
+    }
+
     websocket = new WebSocket("wss://durable-world.signalnerve.workers.dev/websocket");
 
     websocket.OnOpen += () =>
@@ -58,11 +72,13 @@ public class Connection : MonoBehaviour
     websocket.OnError += (e) =>
     {
       Debug.Log("Error! " + e);
+      Connect();
     };
 
     websocket.OnClose += (e) =>
     {
       Debug.Log("Connection closed!" + e);
+      Connect();
     };
 
     websocket.OnMessage += (bytes) =>

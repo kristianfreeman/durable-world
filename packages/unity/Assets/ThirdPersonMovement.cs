@@ -10,7 +10,7 @@ public class ThirdPersonMovement : MonoBehaviour
   public float speed = 6.0f;
   public float jumpSpeed = 8.0f;
   public float gravity = 20.0f;
-  public float rotateSpeedGrounded = 1f;
+  public float rotateSpeedGrounded = 2f;
   public float inAirRotation = 0.5f;
   public float inAirSpeed = 2.0f;
   public float inAirDrift = 0.5f;
