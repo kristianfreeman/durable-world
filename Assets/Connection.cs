@@ -16,6 +16,7 @@ public class GameState
 public class User
 {
   public string id;
+  public string name;
   public string position;
   public string rotation;
 }
@@ -67,6 +68,7 @@ public class Connection : MonoBehaviour
     {
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
+      Debug.Log(payload);
 
       foreach (var user in gameState.users)
       {
@@ -118,6 +120,10 @@ public class Connection : MonoBehaviour
     newClient.id = user.id;
     var otherPlayer = Instantiate(otherPlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
     otherPlayer.name = user.id;
+
+    TMPro.TextMeshPro text = otherPlayer.GetComponentInChildren<TMPro.TextMeshPro>();
+    text.text = user.name;
+
     newClient.playerObject = otherPlayer;
     newClient.interpolateMovement = otherPlayer.GetComponent<InterpolateMovement>();
     Clients.Add(user.id, newClient);

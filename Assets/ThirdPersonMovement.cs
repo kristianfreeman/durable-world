@@ -34,7 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
       moveDirection = transform.TransformDirection(moveDirection);
       moveDirection *= speed;
       // Rotate around y - axis. This is to change direction
-      transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeedGrounded, 0);
+      transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeedGrounded * 0.5f, 0);
 
       //     float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
 
