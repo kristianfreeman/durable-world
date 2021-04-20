@@ -1,0 +1,31 @@
+name: Build project
+on: [push]
+jobs:
+  build:
+    name: Build project 📦
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-DurableWorld-WebGL
+          restore-keys: |
+            Library-DurableWorld-
+            Library-
+      - uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: WebGL
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
+      # Deploy to local repo
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: cf-pages
+          FOLDER: build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
