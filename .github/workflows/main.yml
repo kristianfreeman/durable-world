@@ -22,7 +22,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Build
-          path: packages/unity/build
+          path: build
       # Deploy to local repo
       - name: Deploy
         uses: s0/git-publish-subdir-action@develop
