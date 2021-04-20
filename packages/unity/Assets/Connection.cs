@@ -9,6 +9,7 @@ using NativeWebSocket;
 public class GameState
 {
   public string id;
+  public string name;
   public User[] users;
 }
 
@@ -123,7 +124,7 @@ public class Connection : MonoBehaviour
       }
 
       TMPro.TextMeshProUGUI text = onlineText.GetComponent<TMPro.TextMeshProUGUI>();
-      text.text = $"Online: {gameState.users.Length + 1}";
+      text.text = $"Online: {gameState.users.Length + 1}\nPlaying as {gameState.name}";
     };
 
     // Keep sending messages at every 0.2 seconds

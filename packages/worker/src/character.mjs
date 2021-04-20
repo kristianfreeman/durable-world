@@ -15,10 +15,11 @@ export class Character {
     const users = this.value.users.filter(user => user.id !== skipKey)
     this.value.websockets
       .forEach(
-        ({ id, websocket }) => {
+        ({ id, name, websocket }) => {
           websocket.send(
             JSON.stringify({
               id,
+              name,
               users
             })
           )
