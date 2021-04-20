@@ -89,7 +89,6 @@ public class Connection : MonoBehaviour
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
 
-      Debug.Log(payload);
       foreach (var user in gameState.users)
       {
         try
