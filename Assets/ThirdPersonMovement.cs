@@ -15,6 +15,7 @@ public class ThirdPersonMovement : MonoBehaviour
   public float inAirSpeed = 2.0f;
   public float inAirDrift = 0.5f;
 
+  private float rotationMultiplier = 0.25f;
 
   private Vector3 moveDirection = Vector3.zero;
   void Update()
@@ -34,7 +35,7 @@ public class ThirdPersonMovement : MonoBehaviour
       moveDirection = transform.TransformDirection(moveDirection);
       moveDirection *= speed;
       // Rotate around y - axis. This is to change direction
-      transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeedGrounded * 0.5f, 0);
+      transform.Rotate(0, Input.GetAxis("Horizontal") * rotateSpeedGrounded * rotationMultiplier, 0);
 
       //     float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
 
@@ -48,7 +49,7 @@ public class ThirdPersonMovement : MonoBehaviour
     {
       // We are not grounded. We can still influence the movement with the horizontal and vertical axis, but not so strong.
       moveDirection += transform.TransformDirection(new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * inAirDrift, 0, Input.GetAxis("Vertical") * Time.deltaTime * inAirSpeed));
-      transform.Rotate(0, Input.GetAxis("Horizontal") * inAirRotation * 0.5f, 0); // Uncomment this to let the player change the face direction in air
+      transform.Rotate(0, Input.GetAxis("Horizontal") * inAirRotation * rotationMultiplier, 0); // Uncomment this to let the player change the face direction in air
     }
     // ---------------------------------------------------------------------------------------------        
     // Apply gravity

@@ -41,6 +41,7 @@ public class Connection : MonoBehaviour
   WebSocket websocket;
   public GameObject player;
   public GameObject otherPlayerPrefab;
+  public GameObject onlineText;
 
   public Dictionary<string, Client> Clients = new Dictionary<string, Client>();
 
@@ -68,7 +69,6 @@ public class Connection : MonoBehaviour
     {
       var payload = System.Text.Encoding.UTF8.GetString(bytes);
       GameState gameState = JsonUtility.FromJson<GameState>(payload);
-      Debug.Log(payload);
 
       foreach (var user in gameState.users)
       {
@@ -105,6 +105,9 @@ public class Connection : MonoBehaviour
           Debug.Log(e);
         }
       }
+
+      TMPro.TextMeshProUGUI text = onlineText.GetComponent<TMPro.TextMeshProUGUI>();
+      text.text = $"Online: {gameState.users.Length + 1}";
     };
 
     // Keep sending messages at every 0.2 seconds
