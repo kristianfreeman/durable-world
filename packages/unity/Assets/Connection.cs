@@ -44,6 +44,8 @@ public class Connection : MonoBehaviour
   public GameObject otherPlayerPrefab;
   public GameObject onlineText;
 
+  public Vector3 lastPosition;
+
   public Dictionary<string, Client> Clients = new Dictionary<string, Client>();
 
   private int maxRetries = 10;
@@ -161,13 +163,19 @@ public class Connection : MonoBehaviour
   {
     if (websocket.State == WebSocketState.Open)
     {
-      PlayerPosition playerPosition = new PlayerPosition();
       var currentPos = player.transform.position;
+      if (currentPos == lastPosition)
+      {
+        return;
+      }
+
+      PlayerPosition playerPosition = new PlayerPosition();
       playerPosition.position = $"{currentPos.x},{currentPos.y},{currentPos.z}";
       var currentRot = player.transform.rotation;
       playerPosition.rotation = $"{currentRot.eulerAngles.x},{currentRot.eulerAngles.y},{currentRot.eulerAngles.z}";
       playerPosition.type = "POSITION_UPDATED";
       await websocket.SendText(JsonUtility.ToJson(playerPosition));
+      lastPosition = currentPos;
     }
   }
 

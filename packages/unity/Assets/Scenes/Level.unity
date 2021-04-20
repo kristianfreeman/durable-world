@@ -1504,9 +1504,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Online: 1
-
-    Playing as Green Solid State Awesome'
+  m_text: 'Online: 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -21414,6 +21412,7 @@ MonoBehaviour:
   player: {fileID: 1167008979}
   otherPlayerPrefab: {fileID: 3616183912979331163, guid: a42a0f425c0ef174fb366544d9aa57e3, type: 3}
   onlineText: {fileID: 381396004}
+  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &873777408
 Transform:
   m_ObjectHideFlags: 0
