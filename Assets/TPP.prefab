@@ -241,4 +241,8 @@ MonoBehaviour:
   controller: {fileID: 705226956980531883}
   cam: {fileID: 0}
   speed: 6
-  turnSmoothTime: 0.1
+  jumpSpeed: 8
+  gravity: 20
+  rotateSpeedGrounded: 0.5
+  inAirSpeed: 2
+  inAirDrift: 0.5
