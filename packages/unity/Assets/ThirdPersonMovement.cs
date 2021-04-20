@@ -19,7 +19,7 @@ public class ThirdPersonMovement : MonoBehaviour
 #if !UNITY_WEBGL || UNITY_EDITOR
   private float rotationMultiplier = 0.75f;
 #else
-  private float rotationMultiplier = 2f;
+  private float rotationMultiplier = 3f;
 #endif
 
   private Vector3 moveDirection = Vector3.zero;
