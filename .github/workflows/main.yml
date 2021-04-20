@@ -41,3 +41,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           workingDirectory: "packages/worker"
+          version: "1.16.0-durable-objects-rc.0"
